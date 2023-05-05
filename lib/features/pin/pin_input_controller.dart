@@ -20,6 +20,8 @@ class PinController extends ChangeNotifier {
   String get pin => _pinValues.join();
 
   void addValue(String value) {
+    if (isComplete()) return;
+
     _pinValues[_currentIndex] = value;
     _currentIndex += 1;
 

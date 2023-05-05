@@ -34,79 +34,73 @@ class PinInputPage extends StatelessWidget {
         ),
         body: SafeArea(
           bottom: false,
-          child: Padding(
+          child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              children: [
-                const SizedBox(height: 50),
-                Text(
-                  title,
-                  style: theme.textTheme.headlineLarge?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 32,
-                  ),
+            children: [
+              const SizedBox(height: 50),
+              Text(
+                title,
+                style: theme.textTheme.headlineLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 32,
                 ),
-                if (subtitle != null) ...[
-                  const SizedBox(height: 20),
-                  Text(
-                    subtitle!,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.primary,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+              ),
+              if (subtitle != null) ...[
                 const SizedBox(height: 20),
-                Consumer<PinController>(
-                  builder: (_, value, ___) => PinView(
-                    values: value.pinValues,
+                Text(
+                  subtitle!,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.primary,
                   ),
+                  textAlign: TextAlign.center,
                 ),
-                const Spacer(),
-                Consumer<PinController>(builder: (context, value, child) {
-                  return Column(
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          value.insertFullPin('3826');
-                        },
-                        child: const Text('Insert pin: 3826'),
-                      ),
-                    ],
-                  );
-                }),
-                Row(
+              ],
+              const SizedBox(height: 20),
+              Consumer<PinController>(
+                builder: (_, value, ___) => PinView(
+                  values: value.pinValues,
+                ),
+              ),
+              // const Spacer(),
+              Consumer<PinController>(builder: (context, value, child) {
+                return Column(
                   children: [
-                    Expanded(
-                      child: BrandButton(
-                        onPressed: () {},
-                        child: const Text('Запросить еще раз'),
-                      ),
+                    TextButton(
+                      onPressed: () {
+                        value.insertFullPin('3826');
+                      },
+                      child: const Text('Insert pin: 3826'),
                     ),
                   ],
-                ),
-                const SizedBox(height: 24),
-                Consumer<PinController>(
-                  builder: (_, value, ___) {
-                    return NumericKeyboard(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      runSpacing: 16,
-                      onDigitPressed: value.isComplete()
-                          ? null
-                          : (digit) {
-                              value.addValue(digit);
-                            },
-                      onRemovePressed: value.isEmpty()
-                          ? null
-                          : () {
-                              value.removeLastValue();
-                            },
-                    );
-                  },
-                ),
-                const SizedBox(height: 40),
-              ],
-            ),
+                );
+              }),
+              Row(
+                children: [
+                  Expanded(
+                    child: BrandButton(
+                      onPressed: () {},
+                      child: const Text('Запросить еще раз'),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+              Consumer<PinController>(
+                builder: (_, value, ___) {
+                  return NumericKeyboard(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    runSpacing: 16,
+                    onDigitPressed: (digit) {
+                      value.addValue(digit);
+                    },
+                    onRemovePressed: () {
+                      value.removeLastValue();
+                    },
+                  );
+                },
+              ),
+              const SizedBox(height: 40),
+            ],
           ),
         ),
       ),
